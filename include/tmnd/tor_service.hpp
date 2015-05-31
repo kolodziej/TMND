@@ -6,7 +6,7 @@ namespace tmnd {
 class TorService
 {
  public:
-  TorService(std::string);
+  TorService();
 };
 
 }
