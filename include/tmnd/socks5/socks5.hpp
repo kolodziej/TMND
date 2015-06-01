@@ -21,7 +21,9 @@ class Socks5
   void initialize_reply();
   void initialize_reply_callback(boost::system::error_code, size_t);
 
-  void request(command, address_type);
+  void authenticate(auth_method);
+
+  void request(command, address_type, std::string address);
   void request_callback(boost::system::error_code, size_t);
 
  private:
