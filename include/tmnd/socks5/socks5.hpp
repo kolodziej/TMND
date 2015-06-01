@@ -13,16 +13,19 @@ namespace tmnd { namespace socks5 {
 class Socks5
 {
  public:
-  Socks5(boost::asio::ip::tcp::socket socket);
+  Socks5(boost::asio::ip::tcp::socket& socket);
 
   void initialize(std::initializer_list<auth_methods>);
   void initialize_callback(boost::system::error_code, size_t);
+
+  void initialize_reply();
+  void initialize_reply_callback(boost::system::error_code, size_t);
 
   void request(command, address_type);
   void request_callback(boost::system::error_code, size_t);
 
  private:
-  boost::asio::ip::tcp::socket socket_;
+  boost::asio::ip::tcp::socket& socket_;
 
   struct init_request
   {
