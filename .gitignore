@@ -3,6 +3,6 @@
 include/tmnd/config/version.hpp
 CMakeFiles
 CMakeCache.txt
-cake_install.cmake
+cmake_install.cmake
 Makefile
 build
