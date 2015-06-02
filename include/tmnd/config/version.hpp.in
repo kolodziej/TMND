@@ -1,0 +1,21 @@
+#ifndef TMND_CONFIG_VERSION_HPP
+#define TMND_CONFIG_VERSION_HPP
+#include <cstdio>
+#include <string>
+
+#define TMND_VERSION_MAJOR @TMND_VERSION_MAJOR@
+#define TMND_VERSION_MINOR @TMND_VERSION_MINOR@
+#define TMND_VERSION_PATCH @TMND_VERSION_PATCH@
+
+namespace tmnd { namespace config {
+
+inline std::string version()
+{
+  char data[10];
+  sprintf(data, "v%d.%2d.%2d", TMND_VERSION_MAJOR, TMND_VERSION_MINOR, TMND_VERSION_PATCH);
+  return std::string(data);
+}
+
+} }
+
+#endif
