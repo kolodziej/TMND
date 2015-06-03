@@ -15,13 +15,16 @@ class Socks5
  public:
   Socks5(boost::asio::ip::tcp::socket& socket);
 
-  void initialize(std::initializer_list<auth_methods>);
+  void initialize(std::initializer_list<auth_method>);
   void initialize_callback(boost::system::error_code, size_t);
 
   void initialize_reply();
   void initialize_reply_callback(boost::system::error_code, size_t);
 
   void authenticate(auth_method);
+  void no_authentication() {};
+  void gssapi() {};
+  void user_pass() {};
 
   void request(command, address_type, std::string address);
   void request_callback(boost::system::error_code, size_t);
@@ -33,13 +36,13 @@ class Socks5
   {
     const uint8_t version = 0x05;
     uint8_t nmethods;
-    uint8_t methods[255];
+    auth_method methods[255];
   } init_request_;
 
   struct init_reply
   {
     const uint8_t version = 0x05;
-    uint8_t method;
+    auth_method method;
   } init_reply_;
 
 };

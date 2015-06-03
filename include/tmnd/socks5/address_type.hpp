@@ -1,5 +1,5 @@
 #ifndef TMND_SOCKS5_ADDRESS_TYPE_HPP
-#defien TMND_SOCKS5_ADDRESS_TYPE_HPP
+#define TMND_SOCKS5_ADDRESS_TYPE_HPP
 
 namespace tmnd { namespace socks5 {
 

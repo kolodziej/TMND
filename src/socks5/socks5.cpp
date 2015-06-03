@@ -8,10 +8,12 @@ Socks5::Socks5(boost::asio::ip::tcp::socket& socket) :
 
 void Socks5::initialize(std::initializer_list<auth_method> methods)
 {
-  init_request_.nmethods = methods.length();
-  for (int i = 0; i < methods.length(); ++i)
+  init_request_.nmethods = methods.size();
+  size_t i = 0;
+  for (auto method : methods)
   {
-    init_request_.methods[i] = static_cast<uint8_t>(method);
+    init_request_.methods[i] = method;
+    ++i;
   }
 
   using namespace std::placeholders;
@@ -68,7 +70,7 @@ void Socks5::authenticate(auth_method method)
       user_pass();
       break;
       
-    case auth_methods::no_methods:
+    case auth_method::no_methods:
       // log error
       break;
 

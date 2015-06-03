@@ -1,5 +1,5 @@
-#ifndef TMND_SOCKS5_REPLY_HPP
-#define TMND_SOCKS5_REPLY_HPP
+#ifndef TMND_SOCKS5_REPLY_CODE_HPP
+#define TMND_SOCKS5_REPLY_CODE_HPP
 
 namespace tmnd { namespace socks5 {
 

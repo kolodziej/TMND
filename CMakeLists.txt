@@ -6,6 +6,12 @@ set(TMND_VERSION_MAJOR 0)
 set(TMND_VERSION_MINOR 0)
 set(TMND_VERSION_PATCH 0)
 
+if ("${TMND_VERSION_PATCH}" GREATER 0)
+  set(TMND_LIBRARY_NAME "tmnd-${TMND_VERSION_MAJOR}.${TMND_VERSION_MINOR}.${TMND_VERSION_PATCH}")
+else ("${TMND_VERSION_PATCH}" GREATER 0)
+  set(TMND_LIBRARY_NAME "tmnd-${TMND_VERSION_MAJOR}.${TMND_VERSION_MINOR}")
+endif ("${TMND_VERSION_PATCH}" GREATER 0)
+
 configure_file(
   "${PROJECT_SOURCE_DIR}/include/tmnd/config/version.hpp.in"
   "${PROJECT_SOURCE_DIR}/include/tmnd/config/version.hpp"
@@ -19,6 +25,8 @@ include_directories(
   "${Boost_INCLUDE_DIR}"
 )
 
+set(PROJECT_BINARY_DIR "${PROJECT_SOURCE_DIR}/build")
+
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${PROJECT_BINARY_DIR}/lib/release")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG   "${PROJECT_BINARY_DIR}/lib/debug")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE}")
@@ -26,10 +34,37 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEB
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${PROJECT_BINARY_DIR}/bin/release")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG   "${PROJECT_BINARY_DIR}/bin/debug")
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG -g -Wall")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
+
+message("${PROJECT_BINARY_DIR}")
+
 if (NOT NOMAKE_TESTS)
   add_subdirectory(googletest)
   add_subdirectory(tests)
 endif (NOT NOMAKE_TESTS)
 
+if (NOT NOMAKE_EXAMPLES)
+  add_subdirectory(examples)
+endif (NOT NOMAKE_EXAMPLES)
+
+set(LIB_TMND_SOURCES
+  src/socks5/socks5.cpp
+  src/socks5/request.cpp
+  src/socks5/reply.cpp
+)
+
+set(LIB_TMND_HEADERS
+  include/tmnd/socks5/socks5.hpp
+  include/tmnd/socks5/address_type.hpp
+  include/tmnd/socks5/auth_method.hpp
+  include/tmnd/socks5/command.hpp
+  include/tmnd/socks5/reply_code.hpp
+  include/tmnd/socks5/reply.hpp
+  include/tmnd/socks5/request.hpp
+)
+
+add_library("${TMND_LIBRARY_NAME}" SHARED "${LIB_TMND_SOURCES}")
 
 # target_link_libraries(exec "${Boost_LIBRARIES}")

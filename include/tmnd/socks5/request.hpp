@@ -5,7 +5,7 @@
 #include "command.hpp"
 #include "address_type.hpp"
 
-namespace tmnd {
+namespace tmnd { namespace socks5 {
 
 class Request
 {
@@ -21,9 +21,9 @@ class Request
   const uint8_t reserved_ = 0x00;
   address_type address_type_;
   std::string address_;
-  uint16_t port;
+  uint16_t port_;
 };
 
-}
+} }
 
 #endif
