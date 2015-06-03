@@ -38,8 +38,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG -g -Wall")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
 
-message("${PROJECT_BINARY_DIR}")
-
 if (NOT NOMAKE_TESTS)
   add_subdirectory(googletest)
   add_subdirectory(tests)

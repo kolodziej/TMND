@@ -80,7 +80,25 @@ void Socks5::authenticate(auth_method method)
   }
 }
 
-void Socks5::request(command cmd, address_type atype, std::string address)
+void Socks5::request(Request request)
+{
+  using namespace std::placeholders;
+  boost::asio::mutable_buffer buffer = request.to_buffer();
+  socket_.async_send(buffer, std::bind(&Socks5::request_callback, this, _1, _2));
+}
+
+void Socks5::request_callback(boost::system::error_code ec, size_t transferred)
+{
+  if (ec.value() != 0)
+  {
+    // log error
+  } else
+  {
+    reply();
+  }
+}
+
+void Socks5::reply()
 {
   
 }

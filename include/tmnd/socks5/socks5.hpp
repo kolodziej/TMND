@@ -6,6 +6,7 @@
 #include "auth_method.hpp"
 #include "command.hpp"
 #include "address_type.hpp"
+#include "request.hpp"
 #include "reply.hpp"
 
 namespace tmnd { namespace socks5 {
@@ -24,9 +25,9 @@ class Socks5
   void authenticate(auth_method);
   void no_authentication() {};
   void gssapi() {};
-  void user_pass() {};
+  void user_pass(std::string user, std::string pass) {};
 
-  void request(command, address_type, std::string address);
+  void request(Request);
   void request_callback(boost::system::error_code, size_t);
 
  private:
