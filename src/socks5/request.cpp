@@ -9,7 +9,7 @@ Request::Request(command cmd, address_type atype, std::string address, uint16_t 
     port_(port)
 {}
 
-boost::asio::mutable_buffer Request::to_buffer()
+boost::asio::mutable_buffers_1 Request::to_buffer()
 {
   // calculating buffer size
   size_t address_size{};
@@ -24,27 +24,27 @@ boost::asio::mutable_buffer Request::to_buffer()
     address_size = 16;
   }
   size_t buffer_size{6 + address_size};
-  unsigned char buffer[buffer_size];
   
-  buffer[0] = version_;
-  buffer[1] = static_cast<uint8_t>(command_);
-  buffer[2] = 0x00; // reserved
-  buffer[3] = static_cast<uint8_t>(address_type_);
-  size_t buf_pos{4};
+  buffer_[0] = version_;
+  buffer_[1] = static_cast<uint8_t>(command_);
+  buffer_[2] = 0x00; // reserved
+  buffer_[3] = static_cast<uint8_t>(address_type_);
+
+  size_t buf_pos = 4;
   if (address_type_ == address_type::domainname)
   {
-    buffer[4] = address_size;
-    std::memcpy(buffer + 5, address_.data(), address_size);
-    buf_pos = 5 + address_size;
+    buffer_[buf_pos] = address_.length();
+    std::memcpy(buffer_ + 5, address_.data(), address_.length());
   } else
   {
-    std::memcpy(buffer+4, address_.data(), address_size);
-    buf_pos = 4 + address_size;
+    std::memcpy(buffer_ + buf_pos, address_.data(), address_size);
   }
-  buffer[buf_pos] = 0xff00 & port_;
-  buffer[buf_pos + 1] = 0x00ff & port_;
 
-  return boost::asio::buffer(buffer, buffer_size);
+  buf_pos += address_size;
+  buffer_[buf_pos] = static_cast<uint8_t>((0xff00 & port_) >> 8);
+  buffer_[buf_pos + 1] = static_cast<uint8_t>(0x00ff & port_);
+
+  return boost::asio::buffer(buffer_, buffer_size);
 }
 
 } }

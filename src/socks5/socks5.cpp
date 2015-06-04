@@ -28,6 +28,10 @@ void Socks5::initialize(std::initializer_list<auth_method> methods, InitCallback
 void Socks5::request(Request req, RequestCallback callback)
 {
   request_callback_func_ = callback;
+
+  using namespace std::placeholders;
+  boost::asio::mutable_buffers_1 buffer = req.to_buffer();
+  socket_.async_send(buffer, std::bind(&Socks5::request_callback_, this, _1, _2));
 }
 
 void Socks5::initialize_callback_(boost::system::error_code ec, size_t transferred)
@@ -58,6 +62,36 @@ void Socks5::initialize_reply_callback_(boost::system::error_code ec, size_t tra
   } else
   {
     initialize_callback_func_(error::no_error, ec, init_reply_.method);
+  }
+}
+
+void Socks5::request_callback_(boost::system::error_code ec, size_t transferred)
+{
+  if (ec.value() != 0)
+  {
+    request_callback_func_(error::request_send_error, ec, Reply());
+  } else
+  {
+    request_reply_();
+  }
+}
+
+void Socks5::request_reply_()
+{
+  boost::asio::mutable_buffers_1 buffer(buffer_, 255);
+  using namespace std::placeholders;
+  socket_.async_receive(buffer, std::bind(&Socks5::request_reply_callback_, this, _1, _2));
+}
+
+void Socks5::request_reply_callback_(boost::system::error_code ec, size_t bufsize)
+{
+  if (ec.value() != 0)
+  {
+    request_callback_func_(error::reply_receive_error, ec, Reply());
+  } else
+  {
+    boost::asio::mutable_buffer buffer(buffer_, bufsize);
+    request_callback_func_(error::no_error, ec, Reply(buffer));
   }
 }
 

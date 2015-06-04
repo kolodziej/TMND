@@ -66,7 +66,8 @@ set(LIB_TMND_HEADERS
 if (BUILD_SHARED_LIBS)
   add_library("${TMND_LIBRARY_NAME}" SHARED "${LIB_TMND_SOURCES}")
 else (BUILD_SHARED_LIBS)
-  add_library("${TMND_LIBRARY_NAME}" STATIC "${LIB_TMND_SOURCES}")
+  add_library("${TMND_LIBRARY_NAME}-static" STATIC "${LIB_TMND_SOURCES}")
 endif (BUILD_SHARED_LIBS)
+
 
 # target_link_libraries(exec "${Boost_LIBRARIES}")

@@ -13,7 +13,7 @@ class Request
   Request() {}
   Request(command cmd, address_type atype, std::string address, uint16_t port);
   
-  boost::asio::mutable_buffer to_buffer();
+  boost::asio::mutable_buffers_1 to_buffer();
 
  private:
   const uint8_t version_ = 0x05;
@@ -22,6 +22,8 @@ class Request
   address_type address_type_;
   std::string address_;
   uint16_t port_;
+
+  unsigned char buffer_[255];
 };
 
 } }

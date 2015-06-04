@@ -8,4 +8,8 @@ link_directories(
 )
 
 add_executable(socks5 "${PROJECT_SOURCE_DIR}/socks5.cpp")
-target_link_libraries(socks5 "${TMND_LIBRARY_NAME} ${Boost_LIBRARIES}")
+if (BUILD_SHARED_LIBS)
+  target_link_libraries(socks5 "${TMND_LIBRARY_NAME} ${Boost_LIBRARIES}")
+else (BUILD_SHARED_LIBS)
+  target_link_libraries(socks5 "${TMND_LIBRARY_NAME}-static ${Boost_LIBRARIES}")  
+endif (BUILD_SHARED_LIBS)
