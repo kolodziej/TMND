@@ -1,3 +1,6 @@
 [submodule "googletest"]
 	path = googletest
 	url = https://chromium.googlesource.com/external/googletest.git
+[submodule "json"]
+	path = json
+	url = https://github.com/nlohmann/json.git
