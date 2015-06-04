@@ -63,6 +63,10 @@ set(LIB_TMND_HEADERS
   include/tmnd/socks5/request.hpp
 )
 
-add_library("${TMND_LIBRARY_NAME}" SHARED "${LIB_TMND_SOURCES}")
+if (BUILD_SHARED_LIBS)
+  add_library("${TMND_LIBRARY_NAME}" SHARED "${LIB_TMND_SOURCES}")
+else (BUILD_SHARED_LIBS)
+  add_library("${TMND_LIBRARY_NAME}" STATIC "${LIB_TMND_SOURCES}")
+endif (BUILD_SHARED_LIBS)
 
 # target_link_libraries(exec "${Boost_LIBRARIES}")
