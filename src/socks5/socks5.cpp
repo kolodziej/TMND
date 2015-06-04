@@ -100,7 +100,10 @@ void Socks5::request_callback(boost::system::error_code ec, size_t transferred)
 
 void Socks5::reply()
 {
-  
+}
+
+void Socks5::reply_callback(boost::system::error_code ec, size_t transferred)
+{
 }
 
 } }

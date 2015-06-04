@@ -4,7 +4,7 @@ namespace tmnd { namespace socks5 {
 
 Reply::Reply(boost::asio::mutable_buffer mbuffer)
 {
-  from_buffer_(mbuffer);
+  from_buffer(mbuffer);
 }
 
 uint8_t Reply::version()
@@ -32,7 +32,7 @@ uint16_t Reply::port()
   return port_;
 }
 
-void Reply::from_buffer_(boost::asio::mutable_buffer mbuffer)
+void Reply::from_buffer(boost::asio::mutable_buffer mbuffer)
 {
   size_t buffer_size = boost::asio::buffer_size(mbuffer);
   unsigned char* buffer = boost::asio::buffer_cast<unsigned char*>(mbuffer);
@@ -64,5 +64,6 @@ void Reply::from_buffer_(boost::asio::mutable_buffer mbuffer)
   port_ = static_cast<uint8_t>(buffer[4 + address_size]) << 8;
   port_ += static_cast<uint8_t>(buffer[4 + address_size + 1]);
 }
+
 
 } }
