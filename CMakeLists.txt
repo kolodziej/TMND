@@ -51,6 +51,7 @@ set(LIB_TMND_SOURCES
   src/socks5/socks5.cpp
   src/socks5/request.cpp
   src/socks5/reply.cpp
+  src/tor/process.cpp
 )
 
 set(LIB_TMND_HEADERS
@@ -61,12 +62,14 @@ set(LIB_TMND_HEADERS
   include/tmnd/socks5/reply_code.hpp
   include/tmnd/socks5/reply.hpp
   include/tmnd/socks5/request.hpp
+  include/tmnd/socks5/error.hpp
+  include/tmnd/tor/process.hpp
 )
 
 if (BUILD_SHARED_LIBS)
-  add_library("${TMND_LIBRARY_NAME}" SHARED "${LIB_TMND_SOURCES}")
+  add_library("${TMND_LIBRARY_NAME}" SHARED "${LIB_TMND_SOURCES}" "${LIB_TMND_HEADERS}")
 else (BUILD_SHARED_LIBS)
-  add_library("${TMND_LIBRARY_NAME}-static" STATIC "${LIB_TMND_SOURCES}")
+  add_library("${TMND_LIBRARY_NAME}-static" STATIC "${LIB_TMND_SOURCES}" "${LIB_TMND_HEADERS}")
 endif (BUILD_SHARED_LIBS)
 
 
