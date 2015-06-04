@@ -6,8 +6,10 @@ Socks5::Socks5(boost::asio::ip::tcp::socket& socket) :
   socket_(socket)
 {}
 
-void Socks5::initialize(std::initializer_list<auth_method> methods)
+void Socks5::initialize(std::initializer_list<auth_method> methods, InitCallback callback)
 {
+  initialize_callback_func_ = callback;
+
   init_request_.nmethods = methods.size();
   size_t i = 0;
   for (auto method : methods)
@@ -19,91 +21,44 @@ void Socks5::initialize(std::initializer_list<auth_method> methods)
   using namespace std::placeholders;
   socket_.async_send(
       boost::asio::buffer(reinterpret_cast<char*>(&init_request_), init_request_.nmethods + 2),
-      std::bind(&Socks5::initialize_callback, this, _1, _2)
+      std::bind(&Socks5::initialize_callback_, this, _1, _2)
   );
 }
 
-void Socks5::initialize_callback(boost::system::error_code ec, size_t transferred)
+void Socks5::request(Request req, RequestCallback callback)
+{
+  request_callback_func_ = callback;
+}
+
+void Socks5::initialize_callback_(boost::system::error_code ec, size_t transferred)
 {
   if (ec.value() != 0)
   {
-    // log error
+    initialize_callback_func_(error::init_send_error, ec, auth_method::no_methods);
   } else
   {
-    initialize_reply();
+    initialize_reply_();
   }
 }
 
-void Socks5::initialize_reply()
+void Socks5::initialize_reply_()
 {
   using namespace std::placeholders;
   socket_.async_receive(
       boost::asio::buffer(reinterpret_cast<char*>(&init_reply_), sizeof(init_reply_)),
-      std::bind(&Socks5::initialize_reply_callback, this, _1, _2)
+      std::bind(&Socks5::initialize_reply_callback_, this, _1, _2)
   );
 }
 
-void Socks5::initialize_reply_callback(boost::system::error_code ec, size_t transferred)
+void Socks5::initialize_reply_callback_(boost::system::error_code ec, size_t transferred)
 {
   if (ec.value() != 0)
   {
-    // log error
+    initialize_callback_func_(error::init_receive_error, ec, auth_method::no_methods);
   } else
   {
-    authenticate(init_reply_.method);
+    initialize_callback_func_(error::no_error, ec, init_reply_.method);
   }
-}
-
-void Socks5::authenticate(auth_method method)
-{
-  switch (method)
-  {
-    case auth_method::no_authentication:
-      no_authentication();
-      break;
-
-    case auth_method::gssapi:
-      gssapi();
-      break;
-
-    case auth_method::user_pass:
-      user_pass();
-      break;
-      
-    case auth_method::no_methods:
-      // log error
-      break;
-
-    default:
-      // log error
-      break;
-  }
-}
-
-void Socks5::request(Request request)
-{
-  using namespace std::placeholders;
-  boost::asio::mutable_buffer buffer = request.to_buffer();
-  socket_.async_send(buffer, std::bind(&Socks5::request_callback, this, _1, _2));
-}
-
-void Socks5::request_callback(boost::system::error_code ec, size_t transferred)
-{
-  if (ec.value() != 0)
-  {
-    // log error
-  } else
-  {
-    reply();
-  }
-}
-
-void Socks5::reply()
-{
-}
-
-void Socks5::reply_callback(boost::system::error_code ec, size_t transferred)
-{
 }
 
 } }

@@ -8,6 +8,7 @@
 #include "address_type.hpp"
 #include "request.hpp"
 #include "reply.hpp"
+#include "error.hpp"
 
 namespace tmnd { namespace socks5 {
 
@@ -16,22 +17,21 @@ class Socks5
  public:
   Socks5(boost::asio::ip::tcp::socket& socket);
 
-  void initialize(std::initializer_list<auth_method>);
-  void initialize_callback(boost::system::error_code, size_t);
-
-  void initialize_reply();
-  void initialize_reply_callback(boost::system::error_code, size_t);
-
-  void authenticate(auth_method);
-  void no_authentication() {};
-  void gssapi() {};
-  void user_pass(std::string user, std::string pass) {};
-
-  void request(Request);
-  void request_callback(boost::system::error_code, size_t);
-
+  using InitCallback = std::function<void(error, boost::system::error_code, auth_method)>;
+  using RequestCallback = std::function<void(error, boost::system::error_code, Reply)>;
+  
+  void initialize(std::initializer_list<auth_method>, InitCallback);
+  void request(Request, RequestCallback);
+ 
  private:
+  void initialize_callback_(boost::system::error_code, size_t);
+  void initialize_reply_();
+  void initialize_reply_callback_(boost::system::error_code, size_t);
+  
+
   boost::asio::ip::tcp::socket& socket_;
+  InitCallback initialize_callback_func_;
+  RequestCallback request_callback_func_;
 
   struct init_request
   {
