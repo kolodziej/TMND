@@ -15,6 +15,7 @@ class Message
   uint16_t version() const;
   MessageType type() const;
   uint32_t size() const;
+  uint32_t time() const;
 
   std::string data() const;
 
@@ -23,6 +24,7 @@ class Message
  private:
   uint16_t header_;
   uint32_t size_;
+  uint32_t time_;
   std::string data_;
 };
 
