@@ -88,3 +88,25 @@ TEST_F(BuddyListTest, AddBuddy)
     ++i;
   }
 }
+
+TEST_F(BuddyListTest, RemoveBuddy1)
+{
+  tmnd::BuddyList list(stream);
+  for (ps s : buddies_v)
+  {
+    list.removeBuddy(tmnd::Buddy(s.second, s.first));
+  }
+
+  ASSERT_TRUE(list.getBuddies().empty());
+}
+
+TEST_F(BuddyListTest, RemoveBuddy2)
+{
+  tmnd::BuddyList list(stream);
+  for (ps s : buddies_v)
+  {
+    list.removeBuddy(tmnd::Buddy("no name", s.first));
+  }
+
+  ASSERT_TRUE(list.getBuddies().empty());
+}
