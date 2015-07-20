@@ -17,4 +17,9 @@ std::string Buddy::hostname() const
   return hostname_;
 }
 
+bool Buddy::operator==(const Buddy& rhs) const
+{
+  return hostname_ == rhs.hostname();
+}
+
 }
