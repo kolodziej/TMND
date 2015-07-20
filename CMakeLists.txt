@@ -31,8 +31,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${PROJECT_BINARY_DIR}/lib/release")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG   "${PROJECT_BINARY_DIR}/lib/debug")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG}")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${PROJECT_BINARY_DIR}/bin/release")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG   "${PROJECT_BINARY_DIR}/bin/debug")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG -g -Wall")
@@ -52,6 +50,8 @@ set(LIB_TMND_SOURCES
   src/socks5/request.cpp
   src/socks5/reply.cpp
   src/tor/process.cpp
+  src/buddy.cpp
+  src/buddy_list.cpp
 )
 
 set(LIB_TMND_HEADERS
@@ -64,6 +64,13 @@ set(LIB_TMND_HEADERS
   include/tmnd/socks5/request.hpp
   include/tmnd/socks5/error.hpp
   include/tmnd/tor/process.hpp
+  include/tmnd/archive.hpp
+  include/tmnd/buddy.hpp
+  include/tmnd/buddy_list.hpp
+  include/tmnd/filter_message.hpp
+  include/tmnd/message.hpp
+  include/tmnd/message_type.hpp
+  include/tmnd/profile.hpp
 )
 
 if (BUILD_SHARED_LIBS)
