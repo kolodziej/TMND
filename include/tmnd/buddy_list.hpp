@@ -11,6 +11,7 @@ class Buddy;
 class BuddyList
 {
  public:
+  BuddyList() {}
   BuddyList(std::string filename);
   BuddyList(std::istream& stream);
   

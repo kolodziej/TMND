@@ -2,6 +2,7 @@
 
 #include <string>
 #include <sstream>
+#include <fstream>
 #include <list>
 #include <vector>
 #include <utility>
@@ -18,20 +19,66 @@ TEST(Buddy, Construct)
   ASSERT_EQ(hostname, buddy.hostname());
 }
 
-TEST(BuddyList, ConstructFromStream)
+class BuddyListTest : public ::testing::Test
 {
+ public:
   using ps = std::pair<std::string, std::string>;
-  std::stringstream stream;
-  std::vector<ps> buddies_v = {{
+
+ protected:
+  virtual void SetUp()
+  {
+    buddies_v = {{
       { "rlia3mv6aelrwvtm", "Kacper Kołodziej" },
       { "abcdefghaelrwvtm", "John Watson" },
-      { "123344523dsfgmls", "Sherlock Holmes" }
-  }};
+      { "123344523dsfgmls", "Sherlock Holmes" },
+      { "dfgeq34rfsdg34ra", "Tommy Emmanuel" }
+    }};
+    
+    for (ps s : buddies_v)
+      stream << s.first << " " << s.second << "\n";
+  }
 
-  for (ps s : buddies_v)
-    stream << s.first << " " << s.second << "\n";
+  std::stringstream stream;
+  std::vector<ps> buddies_v;
+};
 
+TEST_F(BuddyListTest, ConstructFromStream)
+{
   tmnd::BuddyList list(stream);
+  std::list<tmnd::Buddy> buddies = list.getBuddies();
+  int i = 0;
+  for (tmnd::Buddy b : buddies)
+  {
+    ASSERT_EQ(buddies_v[i].first, b.hostname());
+    ASSERT_EQ(buddies_v[i].second, b.nick());
+    ++i;
+  }
+}
+
+TEST_F(BuddyListTest, ConstructFromFile)
+{
+  std::string filename = "tmp~";
+  std::fstream file(filename, std::ios::out);
+  file << stream;
+  
+  tmnd::BuddyList list(filename);
+  std::list<tmnd::Buddy> buddies = list.getBuddies();
+  int i = 0;
+  for (tmnd::Buddy b : buddies)
+  {
+    ASSERT_EQ(buddies_v[i].first, b.hostname());
+    ASSERT_EQ(buddies_v[i].second, b.nick());
+    ++i;
+  }
+}
+
+TEST_F(BuddyListTest, AddBuddy)
+{
+  tmnd::BuddyList list;
+  for (ps s : buddies_v)
+  {
+    list.addBuddy(tmnd::Buddy(s.second, s.first));
+  }
   std::list<tmnd::Buddy> buddies = list.getBuddies();
   int i = 0;
   for (tmnd::Buddy b : buddies)
