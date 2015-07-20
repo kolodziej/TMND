@@ -21,4 +21,6 @@ enum class MessageType : uint8_t
   Bye = 0xFF
 };
 
+}
+
 #endif

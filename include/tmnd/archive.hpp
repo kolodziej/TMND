@@ -1,22 +1,29 @@
 #ifndef TMND_ARCHIVE_HPP
 #define TMND_ARCHIVE_HPP
+#include <string>
 #include <list>
+#include <istream>
+#include <ostream>
+
+#include "message.hpp"
 
 namespace tmnd {
-
-class Message;
 
 class Archive
 {
  public:
-  Archive();
+  Archive() = default;
   Archive(std::string);
+  Archive(std::istream&);
   
   void addMessage(const Message& msg);
   std::list<Message> getMessages() const;
-  void loadArchive(std::string filename);
+
+  void save(std::ostream&);
   
  private:
+  void loadFromStream_(std::istream&);
+
   std::list<Message> messages_;
 };
 

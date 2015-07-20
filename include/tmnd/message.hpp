@@ -12,7 +12,7 @@ class Message
  public:
   Message(uint8_t version, MessageType type, std::string data = std::string());
 
-  uint16_t version() const;
+  uint8_t version() const;
   MessageType type() const;
   uint32_t size() const;
   uint32_t time() const;
@@ -22,7 +22,8 @@ class Message
   boost::asio::mutable_buffer buffer();
 
  private:
-  uint16_t header_;
+  uint8_t version_;
+  MessageType type_;
   uint32_t size_;
   uint32_t time_;
   std::string data_;
