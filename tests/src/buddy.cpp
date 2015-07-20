@@ -6,6 +6,8 @@
 #include <list>
 #include <vector>
 #include <utility>
+#include <stdexcept>
+
 #include "tmnd/buddy.hpp"
 #include "tmnd/buddy_list.hpp"
 
@@ -94,7 +96,7 @@ TEST_F(BuddyListTest, RemoveBuddy1)
   tmnd::BuddyList list(stream);
   for (ps s : buddies_v)
   {
-    list.removeBuddy(tmnd::Buddy(s.second, s.first));
+    ASSERT_NO_THROW(list.removeBuddy(tmnd::Buddy(s.second, s.first)));
   }
 
   ASSERT_TRUE(list.getBuddies().empty());
@@ -105,8 +107,14 @@ TEST_F(BuddyListTest, RemoveBuddy2)
   tmnd::BuddyList list(stream);
   for (ps s : buddies_v)
   {
-    list.removeBuddy(tmnd::Buddy("no name", s.first));
+    ASSERT_NO_THROW(list.removeBuddy(tmnd::Buddy("no name", s.first)));
   }
 
   ASSERT_TRUE(list.getBuddies().empty());
+}
+
+TEST_F(BuddyListTest, RemoveNotExisting)
+{
+  tmnd::BuddyList list(stream);
+  ASSERT_THROW(list.removeBuddy(tmnd::Buddy("no name", "123123123123123")), std::runtime_error);
 }
