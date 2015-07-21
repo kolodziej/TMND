@@ -11,8 +11,7 @@ namespace tmnd {
 class MessageJson : public Message
 {
  public:
-  MessageJson() = default;
-  MessageJson(uint8_t version = 0);
+  MessageJson(uint8_t version = default_version);
   
   json jsonObject() const;
   void setJsonObject(json);

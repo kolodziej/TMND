@@ -10,7 +10,7 @@ namespace tmnd {
 class Message
 {
  public:
-  static const uint8_t default_version = 1;
+  static const uint8_t default_version;
 
   Message(MessageType type, std::string data = std::string());
   Message(uint8_t version, MessageType type, std::string data = std::string());

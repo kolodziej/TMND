@@ -2,6 +2,8 @@
 
 namespace tmnd {
 
+const uint8_t Message::default_version = 1;
+
 Message::Message(MessageType type, std::string data) :
     version_(default_version),
     type_(type),
