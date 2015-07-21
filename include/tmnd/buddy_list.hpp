@@ -17,7 +17,7 @@ class BuddyList
   
   void addBuddy(Buddy);
   void removeBuddy(Buddy);
-  std::list<Buddy> getBuddies() const;
+  std::list<Buddy> buddies() const;
 
   void save(std::ostream&);
 

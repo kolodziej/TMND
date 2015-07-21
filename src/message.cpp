@@ -2,11 +2,15 @@
 
 namespace tmnd {
 
+Message::Message(MessageType type, std::string data) :
+    version_(1),
+    type_(type),
+    data_(data)
+{}
+
 Message::Message(uint8_t version, MessageType type, std::string data) :
     version_(version & 0b00000111),
     type_(type),
-    size_(data.size()),
-    time_(0),
     data_(data)
 {}
 
@@ -22,17 +26,17 @@ MessageType Message::type() const
 
 uint32_t Message::size() const
 {
-  return size_;
-}
-
-uint32_t Message::time() const
-{
-  return time_;
+  return data_.size();
 }
 
 std::string Message::data() const
 {
   return data_;
+}
+
+void Message::setData(std::string data)
+{
+  data_ = data;
 }
 
 }

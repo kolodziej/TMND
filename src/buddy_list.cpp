@@ -37,7 +37,7 @@ void BuddyList::removeBuddy(Buddy buddy)
   buddies_.erase(it);
 }
 
-std::list<Buddy> BuddyList::getBuddies() const
+std::list<Buddy> BuddyList::buddies() const
 {
   return buddies_;
 }

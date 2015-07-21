@@ -17,7 +17,7 @@ class Archive
   Archive(std::istream&);
   
   void addMessage(const Message& msg);
-  std::list<Message> getMessages() const;
+  std::list<Message> messages() const;
 
   void save(std::ostream&);
   

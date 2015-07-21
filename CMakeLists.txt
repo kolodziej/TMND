@@ -22,6 +22,7 @@ find_package(Boost 1.58 COMPONENTS system program_options REQUIRED)
 include_directories(
   "${PROJECT_SOURCE_DIR}/"
   "${PROJECT_SOURCE_DIR}/include"
+  "${PROJECT_SOURCE_DIR}/json/src/"
   "${Boost_INCLUDE_DIR}"
 )
 
@@ -44,6 +45,10 @@ endif (NOT NOMAKE_TESTS)
 if (NOT NOMAKE_EXAMPLES)
   add_subdirectory(examples)
 endif (NOT NOMAKE_EXAMPLES)
+
+if (MAKE_JSON_TEST)
+  add_subdirectory(json)
+endif (MAKE_JSON_TEST)
 
 set(LIB_TMND_SOURCES
   src/socks5/socks5.cpp

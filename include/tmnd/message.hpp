@@ -10,22 +10,18 @@ namespace tmnd {
 class Message
 {
  public:
+  Message(MessageType type, std::string data = std::string());
   Message(uint8_t version, MessageType type, std::string data = std::string());
 
   uint8_t version() const;
   MessageType type() const;
   uint32_t size() const;
-  uint32_t time() const;
-
   std::string data() const;
-
-  boost::asio::mutable_buffer buffer();
+  void setData(std::string);
 
  private:
   uint8_t version_;
   MessageType type_;
-  uint32_t size_;
-  uint32_t time_;
   std::string data_;
 };
 

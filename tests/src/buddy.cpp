@@ -47,7 +47,7 @@ class BuddyListTest : public ::testing::Test
 TEST_F(BuddyListTest, ConstructFromStream)
 {
   tmnd::BuddyList list(stream);
-  std::list<tmnd::Buddy> buddies = list.getBuddies();
+  std::list<tmnd::Buddy> buddies = list.buddies();
   int i = 0;
   for (tmnd::Buddy b : buddies)
   {
@@ -64,7 +64,7 @@ TEST_F(BuddyListTest, ConstructFromFile)
   file << stream;
   
   tmnd::BuddyList list(filename);
-  std::list<tmnd::Buddy> buddies = list.getBuddies();
+  std::list<tmnd::Buddy> buddies = list.buddies();
   int i = 0;
   for (tmnd::Buddy b : buddies)
   {
@@ -81,7 +81,7 @@ TEST_F(BuddyListTest, AddBuddy)
   {
     list.addBuddy(tmnd::Buddy(s.second, s.first));
   }
-  std::list<tmnd::Buddy> buddies = list.getBuddies();
+  std::list<tmnd::Buddy> buddies = list.buddies();
   int i = 0;
   for (tmnd::Buddy b : buddies)
   {
@@ -99,7 +99,7 @@ TEST_F(BuddyListTest, RemoveBuddy1)
     ASSERT_NO_THROW(list.removeBuddy(tmnd::Buddy(s.second, s.first)));
   }
 
-  ASSERT_TRUE(list.getBuddies().empty());
+  ASSERT_TRUE(list.buddies().empty());
 }
 
 TEST_F(BuddyListTest, RemoveBuddy2)
@@ -110,7 +110,7 @@ TEST_F(BuddyListTest, RemoveBuddy2)
     ASSERT_NO_THROW(list.removeBuddy(tmnd::Buddy("no name", s.first)));
   }
 
-  ASSERT_TRUE(list.getBuddies().empty());
+  ASSERT_TRUE(list.buddies().empty());
 }
 
 TEST_F(BuddyListTest, RemoveNotExisting)
