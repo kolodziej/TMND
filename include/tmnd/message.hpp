@@ -1,7 +1,7 @@
 #ifndef TMND_MESSAGE_HPP
 #define TMND_MESSAGE_HPP
 #include <cstdint>
-#include <boost/asio.hpp>
+#include <string>
 
 #include "message_type.hpp"
 
@@ -10,6 +10,8 @@ namespace tmnd {
 class Message
 {
  public:
+  static const uint8_t default_version = 1;
+
   Message(MessageType type, std::string data = std::string());
   Message(uint8_t version, MessageType type, std::string data = std::string());
 

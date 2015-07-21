@@ -3,7 +3,7 @@
 namespace tmnd {
 
 Message::Message(MessageType type, std::string data) :
-    version_(1),
+    version_(default_version),
     type_(type),
     data_(data)
 {}
