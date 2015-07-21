@@ -16,6 +16,7 @@ set(LINK_LIBS gtest gtest_main "${TMND_LIBRARY_NAME}-static")
 set(TESTS
   "buddy"
   "message"
+  "archive"
 )
 
 foreach(TEST ${TESTS})

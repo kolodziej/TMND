@@ -30,7 +30,16 @@ std::list<Message> Archive::messages() const
 void Archive::save(std::ostream& stream)
 {
   using json = nlohmann::json;
-  
+  json arr = json::array();
+  for (Message msg : messages())
+  {
+    json obj;
+    obj["version"] = msg.version();
+    obj["type"] = static_cast<uint8_t>(msg.type());
+    obj["data"] = msg.data();
+    arr.push_back(obj);
+  }
+  stream << arr;
 }
 
 void Archive::loadFromStream_(std::istream& stream)
@@ -39,9 +48,10 @@ void Archive::loadFromStream_(std::istream& stream)
   json data;
   data << stream;
 
-  for (json::iterator it = data.begin(); it != data.end(); ++it)
+  for (json obj : data)
   {
-    //Message msg;
+    Message msg(obj["version"], static_cast<MessageType>(static_cast<uint8_t>(obj["type"])), obj["data"]);
+    messages_.push_back(msg);
   }
 }
 
