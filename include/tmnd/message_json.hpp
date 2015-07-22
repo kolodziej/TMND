@@ -11,7 +11,9 @@ namespace tmnd {
 class MessageJson : public Message
 {
  public:
-  MessageJson(uint8_t version = default_version);
+  MessageJson();
+  MessageJson(json data, uint8_t version = default_version);
+  MessageJson(std::string data, uint8_t version = default_version);
   
   json jsonObject() const;
   void setJsonObject(json);
