@@ -5,7 +5,7 @@ for test in `ls bin/*`
 do
     ./$test > /dev/null
     STATUS=$?
-    if [[ "$STATUS" -ne "o0" ]]
+    if [[ "$STATUS" -ne "0" ]]
     then
 	echo "Test $test failed!";
 	SUCCESS=0
