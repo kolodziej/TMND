@@ -22,6 +22,12 @@ Message::Message(uint8_t version, json data) :
     data_(data.dump())
 {}
 
+Message::Message(json data) : 
+    version_(default_version),
+    type_(MessageType::Text),
+    data_(data.dump())
+{}
+
 uint8_t Message::version() const
 {
   return version_;

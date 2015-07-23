@@ -18,6 +18,7 @@ class Message
   Message(MessageType type, std::string data = std::string());
   Message(uint8_t version, MessageType type, std::string data = std::string());
   Message(uint8_t version, json data);
+  Message(json data);
 
   uint8_t version() const;
   MessageType type() const;
