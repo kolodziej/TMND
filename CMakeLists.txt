@@ -59,7 +59,6 @@ set(LIB_TMND_SOURCES
   src/buddy.cpp
   src/buddy_list.cpp
   src/message.cpp
-  src/message_json.cpp
 )
 
 set(LIB_TMND_HEADERS
@@ -77,7 +76,6 @@ set(LIB_TMND_HEADERS
   include/tmnd/buddy_list.hpp
   include/tmnd/filter_message.hpp
   include/tmnd/message.hpp
-  include/tmnd/message_json.hpp
   include/tmnd/message_type.hpp
   include/tmnd/profile.hpp
 )

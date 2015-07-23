@@ -18,7 +18,7 @@ Message::Message(uint8_t version, MessageType type, std::string data) :
 
 Message::Message(uint8_t version, json data) :
     version_(version & 0b00000111),
-    type(MessageType::Text),
+    type_(MessageType::Text),
     data_(data.dump())
 {}
 
@@ -47,12 +47,12 @@ void Message::setData(std::string data)
   data_ = data;
 }
 
-json MessageJson::jsonObject() const
+json Message::jsonObject() const
 {
   return json::parse(data());
 }
 
-void MessageJson::setJsonObject(json obj) 
+void Message::setJsonObject(json obj) 
 {
   setData(obj.dump());
 }

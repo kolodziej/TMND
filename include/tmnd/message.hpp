@@ -6,6 +6,8 @@
 #include "message_type.hpp"
 #include "json.hpp"
 
+using json = nlohmann::json;
+
 namespace tmnd {
 
 class Message
